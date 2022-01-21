@@ -13,10 +13,14 @@ def stock_picker(array)
 sell_price = profit_possibilities.values.max[0]
 buy_price = profit_possibilities.select { |key, value|  value[1] == (profit_possibilities.values.max[1]) }.keys[0]
 profit = profit_possibilities.values.max[1]
-investment_days = [array.index(buy_price), array.index(sell_price)]
+sell_day = 0
+array.each_with_index do |price, index|
+  sell_day = index if price == sell_price && (index > array.index(buy_price))
+end
+investment_days = [array.index(buy_price), sell_day]
+
 "#{investment_days} for a profit of $#{sell_price} - $#{buy_price} == $#{profit}"
 end
-
 
 p stock_picker([17,3,6,9,15,8,6,1,10])
 #  => [1,4] for a profit of $15 - $3 == $12
